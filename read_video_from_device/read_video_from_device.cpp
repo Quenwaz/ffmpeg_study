@@ -147,13 +147,15 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	AVFrame* pFrame = av_frame_alloc();
-
 	AVFrame* pFrameYUV = av_frame_alloc();
-	uint8_t* out_buffer = (uint8_t*)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1));
-	av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, 1);
 
-	int screen_w = pCodecCtx->width, screen_h = pCodecCtx->height;
+	double dRatio = 0.5;
+	const int screen_w = pCodecCtx->width * dRatio;
+	const int screen_h = pCodecCtx->height * dRatio;
 
+	
+	uint8_t* out_buffer = (uint8_t*)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, screen_w, screen_h, 1));
+	av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, out_buffer, AV_PIX_FMT_YUV420P, screen_w, screen_h, 1);
 
 
 	SDL_Texture* pSDLTexture =  NULL;
@@ -168,14 +170,12 @@ int main(int argc, char* argv[])
 
 	// pFrame->color_range = AVCOL_RANGE_JPEG;
 	struct SwsContext* img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt,
-		pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P,
+		screen_w, screen_h, AV_PIX_FMT_YUV420P,
 		SWS_BICUBIC, nullptr, NULL, NULL);
 
 	
-	//------------------------------  
 	SDL_CreateThread(sfp_refresh_thread, NULL, NULL);
 
-	SDL_Rect sdlRect;
 	//Event Loop  
 	SDL_Event event;
 
@@ -199,13 +199,10 @@ int main(int argc, char* argv[])
 			}
 			else {
 				sws_scale(img_convert_ctx, (const unsigned char* const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
-				//SDL---------------------------
 				SDL_UpdateTexture(pSDLTexture, NULL, pFrameYUV->data[0], pFrameYUV->linesize[0]);
 				SDL_RenderClear(pSDLRender);
-				//SDL_RenderCopy( sdlRenderer, sdlTexture, &sdlRect, &sdlRect );  
 				SDL_RenderCopy(pSDLRender, pSDLTexture, NULL, NULL);
 				SDL_RenderPresent(pSDLRender);
-				//SDL End-----------------------
 			}
 			av_packet_unref(packet);
 		}
