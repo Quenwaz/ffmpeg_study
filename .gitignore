@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+/.vs/ffmpeg_study/v16
+/read_video_from_device/x64/Debug/read_vid.c4604b76.tlog
+*.idb
+*.pdb
+*.ilk
+/simplest_mediadata_test-master.zip
+/depends/ffmpeg-n4.4-18-gc813f5e343-win64-gpl-4.4.zip
