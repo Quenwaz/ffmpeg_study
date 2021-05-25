@@ -1,5 +1,0 @@
-﻿  read_video_from_device.cpp
-F:\DevProjects\Cpp\ffmpeg_study\depends\ffmpeg-20200831-dev\include\libavutil\rational.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
-F:\DevProjects\Cpp\ffmpeg_study\read_video_from_device\read_video_from_device.cpp(120,20): warning C4018: '<': signed/unsigned mismatch
-F:\DevProjects\Cpp\ffmpeg_study\read_video_from_device\read_video_from_device.cpp(178,11): warning C4101: 'sdlRect': unreferenced local variable
-  read_video_from_device.vcxproj -> F:\DevProjects\Cpp\ffmpeg_study\x64\Debug\read_video_from_device.exe

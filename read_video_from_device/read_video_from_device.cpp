@@ -222,7 +222,6 @@ int main(int argc, char* argv[])
 		}
 
 	}
-
 	sws_freeContext(img_convert_ctx);
 
 	SDL_DestroyRenderer(pSDLRender);
@@ -232,7 +231,5 @@ int main(int argc, char* argv[])
 	av_frame_free(&pFrameYUV);
 	avcodec_close(pCodecCtx);
 	avformat_close_input(&pFormatCtx);
-
-
 	return 0;
 }
