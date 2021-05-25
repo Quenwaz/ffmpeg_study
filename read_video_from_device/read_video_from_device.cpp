@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 	AVFrame* pFrame = av_frame_alloc();
 	AVFrame* pFrameYUV = av_frame_alloc();
 
-	double dRatio = 0.5;
+	double dRatio = 1;
 	const int screen_w = pCodecCtx->width * dRatio;
 	const int screen_h = pCodecCtx->height * dRatio;
 
