@@ -29,40 +29,32 @@ extern "C"
 #endif
 #endif
 
-//Output YUV420P   
-#define OUTPUT_YUV420P 0
-//'1' Use Dshow   
-//'0' Use VFW  
-#define USE_DSHOW 0
-
 
 //Refresh Event  
-#define SFM_REFRESH_EVENT  (SDL_USEREVENT + 1)
+#define SDL_REFRESH_EVENT  (SDL_USEREVENT + 1)
+#define SDL_BREAK_EVENT  (SDL_USEREVENT + 2)
 
-#define SFM_BREAK_EVENT  (SDL_USEREVENT + 2)
+struct _thread_data
+{
+	bool stop;
+	bool pause;
+};
 
-
-int thread_exit = 0;
-
-int thread_pause = 0;
-
-int sfp_refresh_thread(void* opaque) {
-	thread_exit = 0;
-	thread_pause = 0;
-
-	while (!thread_exit) {
-		if (!thread_pause) {
+int wnd_refresh_thread(void* opaque) {
+	_thread_data* p_thread_data = (_thread_data*)opaque;
+	
+	while (!p_thread_data->stop) {
+		if (!p_thread_data->pause) {
 			SDL_Event event;
-			event.type = SFM_REFRESH_EVENT;
+			event.type = SDL_REFRESH_EVENT;
 			SDL_PushEvent(&event);
 		}
 		SDL_Delay(40);
 	}
-	thread_exit = 0;
-	thread_pause = 0;
+
 	//Break
 	SDL_Event event;
-	event.type = SFM_BREAK_EVENT;
+	event.type = SDL_BREAK_EVENT;
 	SDL_PushEvent(&event);
 
 	return 0;
@@ -149,7 +141,7 @@ int main(int argc, char* argv[])
 	AVFrame* pFrame = av_frame_alloc();
 	AVFrame* pFrameYUV = av_frame_alloc();
 
-	double dRatio = 1;
+	double dRatio = 0.5;
 	const int screen_w = pCodecCtx->width * dRatio;
 	const int screen_h = pCodecCtx->height * dRatio;
 
@@ -165,7 +157,6 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-
 	AVPacket* packet = static_cast<AVPacket*>(av_malloc(sizeof(AVPacket)));
 
 	// pFrame->color_range = AVCOL_RANGE_JPEG;
@@ -173,19 +164,17 @@ int main(int argc, char* argv[])
 		screen_w, screen_h, AV_PIX_FMT_YUV420P,
 		SWS_BICUBIC, nullptr, NULL, NULL);
 
-	
-	SDL_CreateThread(sfp_refresh_thread, NULL, NULL);
-
+	_thread_data thread_data{false, false};
+	SDL_CreateThread(wnd_refresh_thread, NULL, &thread_data);
 	//Event Loop  
-	SDL_Event event;
-
 	for (;;) {
 		//Wait
+		SDL_Event event;
 		SDL_WaitEvent(&event);
-		if (event.type == SFM_REFRESH_EVENT) {
+		if (event.type == SDL_REFRESH_EVENT) {
 			while (1) {
 				if (av_read_frame(pFormatCtx, packet) < 0)
-					thread_exit = 1;
+					thread_data.stop = true;
 
 				if (packet->stream_index == videoindex)
 					break;
@@ -209,12 +198,12 @@ int main(int argc, char* argv[])
 		else if (event.type == SDL_KEYDOWN) {
 			//Pause
 			if (event.key.keysym.sym == SDLK_SPACE)
-				thread_pause = !thread_pause;
+				thread_data.pause = !thread_data.pause;
 		}
 		else if (event.type == SDL_QUIT) {
-			thread_exit = 1;
+			thread_data.stop = true;
 		}
-		else if (event.type == SFM_BREAK_EVENT) {
+		else if (event.type == SDL_BREAK_EVENT) {
 			break;
 		}
 
