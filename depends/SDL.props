@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <sdl_sdk_dir>$(SolutionDir)depends\SDL2-2.0.12</sdl_sdk_dir>
+    <sdl_sdk_dir>$(SolutionDir)depends\SDL2-2.0.14</sdl_sdk_dir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup>
