@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <ffmpeg_sdk_dir>$(SolutionDir)depends\ffmpeg-20200831-dev</ffmpeg_sdk_dir>
+    <ffmpeg_sdk_dir>$(SolutionDir)depends\ffmpeg-n4.4-18-gc813f5e343-win64-gpl-shared-4.4</ffmpeg_sdk_dir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup>
