@@ -53,7 +53,7 @@ int wnd_refresh_thread(void* opaque)
 			event.type = SDL_REFRESH_EVENT;
 			SDL_PushEvent(&event);
 		}
-		// 1000 / 40 = 25 ¼´25 FPS
+		// 1000 / 40 = 25 ï¿½ï¿½25 FPS
 		SDL_Delay(40);
 	}
 

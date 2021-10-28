@@ -16,9 +16,14 @@
                     // it gets resolved by CMake Tools:
                     "name": "PATH",
                     "value": "${env:PATH};${command:cmake.getLaunchTargetDirectory};F:/DevEnvs/CppLibrary/SDL2-2.0.16/lib/x64;F:/DevEnvs/CppLibrary/ffmpeg/bin"
+                },
+                {
+                    "name": "TESTVAR",
+                    "value": "123456789"
                 }
             ],
-            "console": "externalTerminal"
+            "console": "integratedTerminal",
+            "preLaunchTask": "build cmake project"
         }
     ]
 }

@@ -35,9 +35,15 @@ endmacro(find_package_)
 find_package_(ffmpeg)
 find_package_(SDL)
 
+
 include(utils)
 
-add_subdirectory(ffmpeg_study/read_video_from_device)
+
+GetSubDirectory(SubDirList ${CMAKE_CURRENT_LIST_DIR}/ffmpeg_study)
+foreach(child ${SubDirList})
+    add_subdirectory(ffmpeg_study/${child})
+endforeach()
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

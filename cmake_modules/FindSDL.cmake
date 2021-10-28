@@ -1,6 +1,6 @@
 message("FindSDL.cmake find SDL lib")
  
-set(SDLsdk F:/DevEnvs/CppLibrary/SDL2-2.0.16)
+set(SDLsdk $ENV{DevEnvDir}/SDL2-2.0.16)
 
 #find SDL
 FIND_PATH(SDL_INCLUDE_DIR SDL
