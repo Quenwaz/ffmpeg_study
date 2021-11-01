@@ -1,6 +1,6 @@
 message("Findffmpeg.cmake find ffmpeg lib")
  
-set(ffmpegsdk E:/DevEnvs/Cpp/ffmpeg)
+set(ffmpegsdk $ENV{DevEnvDir}/ffmpeg)
 
 #find libavcodec
 FIND_PATH(ffmpeg_INCLUDE_DIR libavcodec
