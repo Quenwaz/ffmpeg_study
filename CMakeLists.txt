@@ -35,9 +35,7 @@ endmacro(find_package_)
 find_package_(ffmpeg)
 find_package_(SDL)
 
-
 include(utils)
-
 
 GetSubDirectory(SubDirList ${CMAKE_CURRENT_LIST_DIR}/ffmpeg_study)
 foreach(child ${SubDirList})
